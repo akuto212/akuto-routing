@@ -378,7 +378,7 @@ rule-providers:
 rules:
   - RULE-SET,private-ips,DIRECT,no-resolve
   - IP-CIDR,::/0,REJECT-DROP,no-resolve
-  - AND,((NETWORK,UDP),(DST-PORT,443/853)),REJECT-DROP
+  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT-DROP
   - RULE-SET,private-domains,DIRECT
   - RULE-SET,category-ads,REJECT-DROP
   - RULE-SET,win-spy,REJECT-DROP
