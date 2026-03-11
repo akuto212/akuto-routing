@@ -2,6 +2,8 @@ name: Update Routing Configs
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "30 4 * * *"
   push:
     branches:
       - main
