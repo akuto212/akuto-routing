@@ -12,12 +12,13 @@
 # Группы прокси:
 #   🛡️ VPN       — основная группа (по умолчанию)
 #   ⚡️ Авто      — автовыбор по задержке (url-test, интервал 5 мин)
-#   📺 Youtube   — отдельный выбор узла для YouTube
-#   💬 Discord   — отдельный выбор узла для Discord / Vesktop
-#   🎮 Игры      — игровые сервисы (Steam, Epic, Origin, Riot, EfT, FaceIT…)
-#   🔓 Без VPN   — принудительный прямой доступ (DIRECT)
-#   ⛔ Блок      — блокировка (REJECT)
-#   ⏭️ Пропуск   — PASS (передать следующему правилу)
+#   📺 Youtube    — отдельный выбор узла для YouTube
+#   ✈️ Telegram   — отдельный выбор узла для Telegram
+#   💬 Discord    — отдельный выбор узла для Discord / Vesktop
+#   🎮 Игры       — игровые сервисы (Steam, Epic, Origin, Riot, EfT, FaceIT…)
+#   🔓 Без VPN    — принудительный прямой доступ (DIRECT)
+#   ⛔ Блок       — блокировка (REJECT)
+#   ⏭️ Пропуск    — PASS (передать следующему правилу)
 #
 # Rule-sets (upstream-репозитории hydraponique на GitHub):
 #   • Реклама и слежка Windows              → REJECT-DROP
@@ -25,7 +26,8 @@
 #   • Microsoft, Apple, Google Play         → DIRECT
 #   • Российские домены (category-ru), ru-apps → DIRECT
 #   • Twitch, Pinterest                     → DIRECT
-#   • YouTube, Telegram, GitHub             → PROXY
+#   • YouTube, GitHub                       → PROXY
+#   • Telegram                              → ✈️ Telegram
 #   • Игровые сервисы                       → 🎮 Игры
 #   • Остальное                             → PROXY
 #
@@ -142,7 +144,17 @@ proxy-groups:
     # filter: '🇫🇮 Finland' # Filter connections containing this value (hosts should be named like 🇫🇮 Finland1, 🇫🇮 Finland2, etc.)
     proxies:
       - 🛡️ VPN
+      - 🔓 Без VPN
       # Если хотите оставить на выбор только определенные узлы, воспользуйтесь filter
+  - name: ✈️ Telegram
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
+    type: select
+    remnawave:
+      include-proxies: false
+    include-all: true
+    proxies:
+      - 🛡️ VPN
+      - 🔓 Без VPN
   - name: 💬 Discord.exe
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Discord.png
     type: select
@@ -151,6 +163,7 @@ proxy-groups:
     include-all: true
     proxies:
       - 🛡️ VPN
+      - 🔓 Без VPN
   - name: 🎮 Игры
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png
     type: select
@@ -410,22 +423,22 @@ rule-providers:
 
 rules:
   # --- Системные / приватные адреса ---
-  - RULE-SET,private-ips,DIRECT,no-resolve         # приватные IP — всегда напрямую, без DNS
-  - IP-CIDR,::/0,REJECT-DROP,no-resolve            # весь IPv6-трафик, не попавший в fake-ip — блок
+  - RULE-SET,private-ips,DIRECT,no-resolve # приватные IP — всегда напрямую, без DNS
+  - IP-CIDR,::/0,REJECT-DROP,no-resolve # весь IPv6-трафик, не попавший в fake-ip — блок
   - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT-DROP # QUIC — принудительно через TCP
-  - RULE-SET,private-domains,DIRECT                # локальные домены — напрямую
+  - RULE-SET,private-domains,DIRECT # локальные домены — напрямую
 
   # --- Блокировки ---
-  - RULE-SET,category-ads,REJECT-DROP              # реклама
-  - RULE-SET,win-spy,REJECT-DROP                   # телеметрия Windows
+  - RULE-SET,category-ads,REJECT-DROP # реклама
+  - RULE-SET,win-spy,REJECT-DROP # телеметрия Windows
 
   # --- Торренты ---
-  - RULE-SET,torrent-domains,DIRECT                # торрент-трекеры — напрямую
+  - RULE-SET,torrent-domains,DIRECT # торрент-трекеры — напрямую
 
   # --- Сервисы через PROXY ---
-  - RULE-SET,twitch-ads,PROXY                      # домены Twitch Ads — через PROXY (фикс качества)
+  - RULE-SET,twitch-ads,PROXY # домены Twitch Ads — через PROXY (фикс качества)
   - RULE-SET,youtube,📺 Youtube
-  - RULE-SET,telegram,PROXY
+  - RULE-SET,telegram,✈️ Telegram
   - RULE-SET,github,PROXY
 
   # --- Игровые платформы и сервисы → 🎮 Игры (по умолчанию DIRECT, можно переключить) ---
@@ -444,19 +457,19 @@ rules:
   - RULE-SET,pinterest,DIRECT
 
   # --- DIRECT ---
-  - RULE-SET,category-ru,DIRECT                    # RU-сайты, жесткая зависимость от whitelist
-  - RULE-SET,whitelist,DIRECT                      # RU-белосписочный
+  - RULE-SET,category-ru,DIRECT # RU-сайты, жесткая зависимость от whitelist
+  - RULE-SET,whitelist,DIRECT # RU-белосписочный
 
   # --- Торренты ---
-  - RULE-SET,torrent-clients,DIRECT                # торрент-клиенты по процессу
+  - RULE-SET,torrent-clients,DIRECT # торрент-клиенты по процессу
 
   # --- Приложения по имени процесса ---
   - PROCESS-NAME-REGEX,discord,💬 Discord.exe
   - PROCESS-NAME-REGEX,vesktop,💬 Discord.exe
 
   # --- Широкие категории ---
-  - RULE-SET,games,🎮 Игры                         # общая игровая категория
-  - RULE-SET,ru-apps,DIRECT                        # RU-приложения Android
+  - RULE-SET,games,🎮 Игры # общая игровая категория
+  - RULE-SET,ru-apps,DIRECT # RU-приложения Android
 
   # --- IP-адреса → DIRECT ---
   - RULE-SET,direct-ips,DIRECT
