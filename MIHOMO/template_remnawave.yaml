@@ -178,7 +178,7 @@ proxy-groups:
     tolerance: 150
     url: https://www.gstatic.com/generate_204
     interval: 300
-    # exclude-filter: прокси, которые хотите исключить
+    exclude-filter: '^🇷🇺 RU01-TCP-REALITY$'
     remnawave:
       include-proxies: false
     include-all: true
