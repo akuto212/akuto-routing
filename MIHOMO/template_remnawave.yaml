@@ -23,10 +23,12 @@
 # Rule-sets (upstream-репозитории hydraponique на GitHub):
 #   • Реклама и слежка Windows              → REJECT-DROP
 #   • Торренты (домены/клиенты)             → DIRECT
-#   • Microsoft, Apple, Google Play         → DIRECT
+#   • Microsoft, Apple                      → DIRECT
 #   • Российские домены (category-ru), ru-apps → DIRECT
 #   • Twitch, Pinterest                     → DIRECT
-#   • YouTube, GitHub                       → PROXY
+#   • Google Play                           → PROXY
+#   • YouTube                               → 📺 Youtube
+#   • GitHub                                → PROXY
 #   • Telegram                              → ✈️ Telegram
 #   • Игровые сервисы                       → 🎮 Игры
 #   • Остальное                             → PROXY
@@ -436,6 +438,7 @@ rules:
   - RULE-SET,torrent-domains,DIRECT # торрент-трекеры — напрямую
 
   # --- Сервисы через PROXY ---
+  - RULE-SET,google-play,PROXY
   - RULE-SET,twitch-ads,PROXY # домены Twitch Ads — через PROXY (фикс качества)
   - RULE-SET,youtube,📺 Youtube
   - RULE-SET,telegram,✈️ Telegram
@@ -453,7 +456,6 @@ rules:
   - RULE-SET,twitch,DIRECT
   - RULE-SET,microsoft,DIRECT
   - RULE-SET,apple,DIRECT
-  - RULE-SET,google-play,DIRECT
   - RULE-SET,pinterest,DIRECT
 
   # --- DIRECT ---
