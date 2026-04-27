@@ -459,6 +459,7 @@ rules:
   - RULE-SET,pinterest,DIRECT
 
   # --- DIRECT ---
+  - DOMAIN-SUFFIX,akuto.su,DIRECT # akuto.su и все поддомены
   - RULE-SET,category-ru,DIRECT # RU-сайты, жесткая зависимость от whitelist
   - RULE-SET,whitelist,DIRECT # RU-белосписочный
 

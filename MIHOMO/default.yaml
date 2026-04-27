@@ -398,6 +398,7 @@ rules:
   - RULE-SET,microsoft,DIRECT
   - RULE-SET,apple,DIRECT
   - RULE-SET,pinterest,DIRECT
+  - DOMAIN-SUFFIX,akuto.su,DIRECT
   - RULE-SET,category-ru,DIRECT
   - RULE-SET,whitelist,DIRECT
   - RULE-SET,torrent-clients,DIRECT
